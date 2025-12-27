@@ -4,7 +4,7 @@ import { FaLinkedin, FaUniversity, FaRobot } from 'react-icons/fa';
 const Hero = () => {
   return (
     <section className="hero">
-      <div className="container">
+      <div className="container container-hero">
         <div className="hero-content">
           <h1 className="hero-title">
             The All-in-One Platform for <span className="highlight">College Students</span>
@@ -68,9 +68,14 @@ const Hero = () => {
           min-width: 300px;
           padding-right: 40px;
         }
+
+        .container-hero {
+          display:flex;
+          flex-direction: row;
+        }
         
         .hero-title {
-          font-size: 3rem;
+          font-size: clamp(1.8rem, 5vw, 3rem);
           font-weight: 800;
           line-height: 1.2;
           margin-bottom: 20px;
@@ -82,7 +87,7 @@ const Hero = () => {
         }
         
         .hero-subtitle {
-          font-size: 1.2rem;
+          font-size: clamp(1rem, 2.5vw, 1.2rem);
           color: var(--gray-color);
           margin-bottom: 30px;
         }
@@ -116,6 +121,7 @@ const Hero = () => {
         .hero-image {
           flex: 1;
           min-width: 300px;
+          padding-left: 100px;
         }
         
         .dashboard-preview {
@@ -125,7 +131,7 @@ const Hero = () => {
         
         .dashboard-card {
           position: absolute;
-          width: 280px;
+          max-width: 280px;
           padding: 20px;
           border-radius: 15px;
           box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -141,7 +147,7 @@ const Hero = () => {
         
         .card-2 {
           background: white;
-          top: 30px;
+          top: 100px;
           left: 50px;
           z-index: 2;
           transform: rotate(-5deg);
@@ -150,36 +156,206 @@ const Hero = () => {
         .card-3 {
           background: linear-gradient(135deg, #4cc9f0, #4361ee);
           color: white;
-          top: 60px;
+          top: 200px;
           left: 100px;
           z-index: 1;
-          transform: rotate(5deg);
+          transform: rotate(-8deg);
         }
         
-        @media (max-width: 768px) {
-          .hero {
-            padding-top: 120px;
+        @media (max-width: 1200px) {
+          .container {
+            flex-direction: column;
+            gap: 50px;
           }
-          
-          .hero-title {
-            font-size: 2.2rem;
+
+          .hero {
+            padding-bottom:50px;
           }
           
           .hero-content {
             padding-right: 0;
-            margin-bottom: 50px;
+            text-align: center;
+          }
+          
+          .hero-features {
+            justify-content: center;
+          }
+
+          .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .hero-image {
+            width: 100%;
+            padding-left: 0;
+            max-height: 300px;
+          }
+
+          .dashboard-preview {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            height:200px;
+            width: 100%;
+            gap: 20px;
+
+          }
+
+          .card-1,
+           .card-2 ,
+           .card-3 {
+            z-index:0;
+          }
+
+          .dashboard-card {
+            position: relative;
+            top:0;
+            left:0;
+            transform: rotate(0deg);
+            min-height: 130px;
+          }
+        }
+
+        @media (max-width: 992px) {
+          .hero {
+            padding-top: 130px;
+      }
+          .hero-title {
+            font-size: 2.5rem;
+          }
+
+          .container-hero {
+            
+          }
+
+          .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom:0;
+            margin-bottom:0;
+          }
+
+          .hero-image {
+            width: 100%;
+            padding-left: 0;
+            padding-top:0;
+            margin-top:0;
+          }
+
+          .dashboard-preview {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 20px;
+          }
+
+          .dashboard-card {
+            position: relative;
+            top:0;
+            left:0;
+            transform: rotate(0deg);
+            min-height: 130px;
+            z-index:0;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero {
+            padding-top: 120px;
+            padding-bottom: 3 0px;
+          }
+          
+          .container {
+            gap:20px;
+          }
+
+          .hero-title {
+            font-size: 2.2rem;
+          }
+          
+          .hero-subtitle {
+            font-size: 1.1rem;
+          }
+          
+          .hero-content {
+            padding-right: 0;
+            margin-bottom: 0px;
           }
           
           .hero-buttons {
             flex-direction: column;
+            width: 50%;
+          }
+          
+          .hero-buttons .btn {
+            width: 100%;
+          }
+          
+          .hero-features {
+            flex-direction: row;
+            align-items: center;
           }
           
           .dashboard-preview {
-            height: 300px;
+            flex-direction: row;
+            justify-content: center;
+
+            padding:20px;
+          }
+        
+          .hero-image {
+            width:100%;
+          }
+        }
+
+        @media (max-width: 480px) {
+
+          .hero {
+            padding-top: 100px;
+            padding-bottom: 50px;
+          }
+          
+          .hero-title {
+            font-size: 1.8rem;
+          }
+          
+          .hero-subtitle {
+            font-size: 1rem;
+          }
+          
+          .dashboard-preview {
+            height: 250px;
           }
           
           .dashboard-card {
-            width: 220px;
+            width: 180px;
+            padding: 15px;
+          }
+          
+          .dashboard-card h4 {
+            font-size: 1rem;
+          }
+          
+          .dashboard-card p {
+            font-size: 0.85rem;
+          }
+          
+          .card-2 {
+            left: 20px;
+            top: 20px;
+          }
+          
+          .card-3 {
+            left: 40px;
+            top: 40px;
           }
         }
       `}</style>

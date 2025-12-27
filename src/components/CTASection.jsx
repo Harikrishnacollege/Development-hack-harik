@@ -164,6 +164,16 @@ const CTASection = () => {
           font-size: 0.9rem;
         }
         
+        @media (max-width: 1024px) {
+          .cta-content h2 {
+            font-size: 2.3rem;
+          }
+          
+          .cta-stats {
+            gap: 40px;
+          }
+        }
+
         @media (max-width: 768px) {
           .cta-section {
             padding: 70px 0;
@@ -171,6 +181,10 @@ const CTASection = () => {
           
           .cta-content h2 {
             font-size: 2rem;
+          }
+          
+          .cta-content > p {
+            font-size: 1.1rem;
           }
           
           .form-group {
@@ -188,6 +202,33 @@ const CTASection = () => {
           
           .cta-stats {
             gap: 30px;
+          }
+          
+          .stat-item h3 {
+            font-size: 2rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .cta-section {
+            padding: 60px 0;
+          }
+          
+          .cta-content h2 {
+            font-size: 1.75rem;
+          }
+          
+          .cta-content > p {
+            font-size: 1rem;
+          }
+          
+          .cta-stats {
+            flex-direction: column;
+            gap: 25px;
+          }
+          
+          .stat-item h3 {
+            font-size: 1.8rem;
           }
         }
       `}</style>

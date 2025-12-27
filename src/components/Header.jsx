@@ -9,7 +9,7 @@ const Header = () => {
   };
 
   return (
-    <header className="header">
+    <header className="header"> 
       <div className="container">
         <nav className="navbar">
           <div className="logo">
@@ -46,6 +46,7 @@ const Header = () => {
           justify-content: space-between;
           align-items: center;
           padding: 20px 0;
+          width: 100%;
         }
         
         .logo {
@@ -90,9 +91,28 @@ const Header = () => {
           color: var(--dark-color);
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+          .nav-links {
+            gap: 20px;
+          }
+          
+          .nav-links a {
+            font-size: 0.95rem;
+          }
+
+        }
+
+        @media (max-width: 1024px) {
           .mobile-menu-btn {
             display: block;
+          }
+          
+          .logo {
+            font-size: 1.3rem;
+          }
+          
+          .logo-icon {
+            font-size: 1.7rem;
           }
           
           .nav-links {
@@ -118,6 +138,23 @@ const Header = () => {
           
           .nav-links a {
             margin: 10px 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .logo {
+            font-size: 1.1rem;
+          }
+          
+          .logo-icon {
+            font-size: 1.5rem;
+          }
+          
+          .navbar {
+            padding: 15px 0;
           }
         }
       `}</style>

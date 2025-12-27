@@ -316,13 +316,55 @@ const AIGenerator = () => {
           margin-top: 5px;
         }
         
-        @media (max-width: 992px) {
+        @media (max-width: 1024px) {
           .generator-container {
             grid-template-columns: 1fr;
+            gap: 25px;
           }
         }
-        
+
+        @media (max-width: 768px) {
+          .generator-controls,
+          .generator-output {
+            padding: 25px 20px;
+          }
+          
+          .output-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+          }
+          
+          .paper-meta {
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+          }
+          
+          .output-actions {
+            flex-direction: column;
+            width: 100%;
+          }
+          
+          .output-actions .btn {
+            width: 100%;
+          }
+        }
+
         @media (max-width: 576px) {
+          .generator-controls,
+          .generator-output {
+            padding: 20px 15px;
+          }
+          
+          .difficulty-buttons {
+            flex-direction: column;
+          }
+          
+          .difficulty-btn {
+            width: 100%;
+          }
+          
           .paper-meta {
             flex-direction: column;
             gap: 10px;
@@ -330,6 +372,10 @@ const AIGenerator = () => {
           
           .output-actions {
             flex-direction: column;
+          }
+          
+          .placeholder-icon {
+            font-size: 2.5rem;
           }
         }
       `}</style>

@@ -152,13 +152,37 @@ const HowItWorks = () => {
         .timeline-dot:nth-child(6) { left: 80%; }
         .timeline-dot:nth-child(7) { left: 100%; }
         
+        @media (max-width: 1024px) {
+          .steps-container {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+          }
+        }
+
         @media (max-width: 768px) {
           .steps-container {
             grid-template-columns: 1fr;
+            gap: 30px;
+          }
+          
+          .step-item {
+            padding: 25px 15px;
           }
           
           .timeline {
             display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .step-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+          }
+          
+          .step-item h3 {
+            font-size: 1.2rem;
           }
         }
       `}</style>

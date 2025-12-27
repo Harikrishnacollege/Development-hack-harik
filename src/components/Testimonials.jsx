@@ -105,6 +105,30 @@ const Testimonials = () => {
           color: var(--gray-color);
           font-size: 0.9rem;
         }
+
+        @media (max-width: 1024px) {
+          .testimonials-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .testimonials-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          
+          .testimonial-card {
+            padding: 25px 20px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .testimonial-card {
+            padding: 20px 15px;
+          }
+        }
       `}</style>
     </section>
   );

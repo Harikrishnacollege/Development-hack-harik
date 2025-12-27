@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="container">
         <div className="footer-content">
-          <div className="footer-section">
+          <div className="footer-section footer-section-1">
             <div className="footer-logo">
               <FaGraduationCap className="logo-icon" />
               <span className="logo-text">College<span className="logo-highlight">Central</span>Hub</span>
@@ -65,6 +65,8 @@ const Footer = () => {
       </div>
       
       <style jsx>{`
+
+
         .footer {
           background-color: var(--dark-color);
           color: white;
@@ -72,10 +74,15 @@ const Footer = () => {
         }
         
         .footer-content {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-          gap: 40px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          gap: 100px;
           margin-bottom: 50px;
+        }
+
+        .footer-section-1 {
+          max-width: 500px;
         }
         
         .footer-logo {
@@ -159,16 +166,52 @@ const Footer = () => {
           opacity: 0.7;
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
           .footer-content {
-            grid-template-columns: 1fr;
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 35px;
+          }
+        }
+
+        @media (max-width: 768px) {
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  /* First section takes full width */
+  .footer-section-1 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  /* Remaining sections align horizontally */
+  .footer-section:not(.footer-section-1) {
+    flex: 1 1 30%;
+    min-width: 160px;
+    padding-left:10px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+}
+
+
+        @media (max-width: 480px) {
+          .footer-logo {
+            font-size: 1.3rem;
           }
           
-          .footer-bottom {
-            flex-direction: column;
-            gap: 15px;
-            text-align: center;
+          .logo-icon {
+            font-size: 1.7rem;
+          }
+          
+          .footer-section h4 {
+            font-size: 1.1rem;
           }
         }
       `}</style>

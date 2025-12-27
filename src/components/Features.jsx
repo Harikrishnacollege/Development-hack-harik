@@ -95,9 +95,37 @@ const Features = () => {
           color: var(--gray-color);
         }
         
+        @media (max-width: 1024px) {
+          .features-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+          }
+        }
+
         @media (max-width: 768px) {
           .features-grid {
             grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          
+          .feature-card {
+            padding: 30px 20px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .feature-card {
+            padding: 25px 15px;
+          }
+          
+          .feature-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+          }
+          
+          .feature-card h3 {
+            font-size: 1.3rem;
           }
         }
       `}</style>

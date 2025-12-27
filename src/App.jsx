@@ -8,18 +8,20 @@ import Testimonials from './components/Testimonials';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
 import './App.css';
+import Authform from "./components/Authform"
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <Header />
       <Hero />
       <Features />
       <AIGenerator />
       <HowItWorks />
       <Testimonials />
       <CTASection />
-      <Footer />
+      <Footer /> */}
+      <Authform/>
     </div>
   );
 }
