@@ -1,6 +1,7 @@
 import "../Styles/Authform.css";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
+import { useNavigate } from "react-router-dom"; // Add this import
 
 import { auth, googleProvider } from "../firebaseConfig";
 import {
@@ -10,6 +11,7 @@ import {
 } from "firebase/auth";
 
 function Authform() {
+  const navigate = useNavigate(); // Add this hook
   const [isRegister, setIsRegister] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showLoginEmail, setShowLoginEmail] = useState(false);
@@ -24,6 +26,26 @@ function Authform() {
 
   const toggleForm = () => setIsRegister((prev) => !prev);
 
+  async function sendIdTokenToBackend(user) {
+    const idToken = await user.getIdToken(true); // force fresh token
+
+    const res = await fetch(
+      "https://iit-jhack-backend.onrender.com/auth/google",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idToken }),
+      }
+    );
+
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err);
+    }
+
+    return res.json(); // This now returns {status, uid, profileCompleted}
+  }
+
   // ---------------- EMAIL / PASSWORD AUTH ----------------
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +57,7 @@ function Authform() {
       if (isRegister) {
         if (!regEmail || !regPassword) {
           alert("Please enter email and password");
+          setIsLoading(false);
           return;
         }
 
@@ -44,10 +67,19 @@ function Authform() {
           regPassword
         );
         console.log("Registered:", res.user);
-        alert("Registration successful");
+        const backendResponse = await sendIdTokenToBackend(res.user);
+        console.log("Backend response:", backendResponse);
+
+        // Check profile completion and redirect
+        if (backendResponse.profileCompleted === false) {
+          navigate("/profile");
+        } else {
+          navigate("/home");
+        }
       } else {
         if (!loginEmail || !loginPassword) {
           alert("Please enter email and password");
+          setIsLoading(false);
           return;
         }
 
@@ -57,7 +89,15 @@ function Authform() {
           loginPassword
         );
         console.log("Logged in:", res.user);
-        alert("Login successful");
+        const backendResponse = await sendIdTokenToBackend(res.user);
+        console.log("Backend response:", backendResponse);
+
+        // Check profile completion and redirect
+        if (backendResponse.profileCompleted === false) {
+          navigate("/profile");
+        } else {
+          navigate("/home");
+        }
       }
     } catch (error) {
       console.error(error.code, error.message);
@@ -125,18 +165,24 @@ function Authform() {
       const data = await response.json();
       console.log("Backend response:", data);
 
-      alert("Google login successful");
+      // Check profile completion and redirect
+      if (data.profileCompleted === false) {
+        navigate("/profile");
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       console.error("Google auth flow failed:", error);
       alert(error.message);
-    } finally {
       setIsLoading(false);
     }
   };
 
   return (
     <div className="login-page-container">
-      <div className={`wrapper ${isRegister ? "active" : ""} black-white-theme`}>
+      <div
+        className={`wrapper ${isRegister ? "active" : ""} black-white-theme`}
+      >
         {/* Login Form */}
         <div className="form-box login">
           <h2 className="animation">Login</h2>
@@ -147,10 +193,11 @@ function Authform() {
                 type="text"
                 placeholder=" "
                 required
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
               />
               <label htmlFor="loginEmail">Email</label>
               <i className="bx bxs-user"></i>
-              <span className="error-message"></span>
             </div>
             <div className="input-box">
               <input
@@ -158,6 +205,8 @@ function Authform() {
                 type={showLoginPassword ? "text" : "password"}
                 placeholder=" "
                 required
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
               />
               <label htmlFor="loginPassword">Password</label>
               <i className="bx bxs-lock-alt"></i>
@@ -166,7 +215,9 @@ function Authform() {
                 className="toggle-password"
                 onClick={() => setShowLoginPassword(!showLoginPassword)}
               >
-                <i className={`bx ${showLoginPassword ? "bx-hide" : "bx-show"}`}></i>
+                <i
+                  className={`bx ${showLoginPassword ? "bx-hide" : "bx-show"}`}
+                ></i>
               </button>
             </div>
 
@@ -192,8 +243,8 @@ function Authform() {
               <div className="divider">
                 <span>Or continue with</span>
               </div>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn-google"
                 onClick={handleGoogleAuth}
                 disabled={isLoading}
@@ -206,7 +257,13 @@ function Authform() {
             <div className="logreg-link">
               <p>
                 Don&apos;t have an account?{" "}
-                <a href="#" onClick={(e) => { e.preventDefault(); toggleForm(); }}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleForm();
+                  }}
+                >
                   Register
                 </a>
               </p>
@@ -219,12 +276,7 @@ function Authform() {
           <h2 className="animation">Register</h2>
           <form className="animation" onSubmit={handleSubmit}>
             <div className="input-box">
-              <input
-                id="regUsername"
-                type="text"
-                placeholder=" "
-                required
-              />
+              <input id="regUsername" type="text" placeholder=" " required />
               <label htmlFor="regUsername">Username</label>
               <i className="bx bxs-user"></i>
               <span className="error-message"></span>
@@ -232,12 +284,14 @@ function Authform() {
 
             <div className="input-box">
               <input
-                id="loginEmail"
+                id="regEmail"
                 type="text"
                 placeholder=" "
                 required
+                value={regEmail}
+                onChange={(e) => setRegEmail(e.target.value)}
               />
-              <label htmlFor="loginEmail">Email</label>
+              <label htmlFor="regEmail">Email</label>
               <i className="bx bxs-user"></i>
               <span className="error-message"></span>
             </div>
@@ -247,6 +301,8 @@ function Authform() {
                 type={showRegisterPassword ? "text" : "password"}
                 placeholder=" "
                 required
+                value={regPassword}
+                onChange={(e) => setRegPassword(e.target.value)}
               />
               <label htmlFor="regPassword">Password</label>
               <i className="bx bxs-lock-alt"></i>
@@ -255,7 +311,11 @@ function Authform() {
                 className="toggle-password"
                 onClick={() => setShowRegisterPassword(!showRegisterPassword)}
               >
-                <i className={`bx ${showRegisterPassword ? "bx-hide" : "bx-show"}`}></i>
+                <i
+                  className={`bx ${
+                    showRegisterPassword ? "bx-hide" : "bx-show"
+                  }`}
+                ></i>
               </button>
               <span className="error-message"></span>
             </div>
@@ -276,8 +336,8 @@ function Authform() {
               <div className="divider">
                 <span>Or sign up with</span>
               </div>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="btn-google"
                 onClick={handleGoogleAuth}
                 disabled={isLoading}
@@ -290,7 +350,13 @@ function Authform() {
             <div className="logreg-link">
               <p>
                 Already have an account?{" "}
-                <a href="#" onClick={(e) => { e.preventDefault(); toggleForm(); }}>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleForm();
+                  }}
+                >
                   Login
                 </a>
               </p>

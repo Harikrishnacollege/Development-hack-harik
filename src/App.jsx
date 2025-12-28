@@ -1,7 +1,8 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import CollegeList from './components/CollegeList';
-import CollegeDetails from './components/CollegeDetails';
-import Home from "./Pages/Home"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CollegeList from "./components/CollegeList";
+import CollegeDetails from "./components/CollegeDetails";
+import Home from "./Pages/Home";
+import Authform from "./components/Authform";
 
 function App() {
   return (
@@ -10,8 +11,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/colleges" element={<CollegeList />} />
         <Route path="/college/:id" element={<CollegeDetails />} />
+        <Route path="/login" element={<Authform />} />
       </Routes>
     </Router>
   );
 }
-export default App
+export default App;
