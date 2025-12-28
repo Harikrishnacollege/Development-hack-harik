@@ -4,7 +4,8 @@ import {Link, useNavigate} from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
-  const { user, logout, isAuthenticated } = useAuth();
+  const { authState, logout } = useAuth();
+  const isAuthenticated = authState?.isAuthenticated || false;
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -47,7 +48,7 @@ const Header = () => {
           </div>
           
           <div className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" ><a href="#features">Features</a></Link>
+            <Link to="/">Features</Link>
             <Link to="/AiGenerator" style={{textDecoration: 'none', color: 'var(--dark-color)', fontWeight: 500}}>AI_QS</Link>
             <Link to="/colleges" style={{textDecoration: 'none', color: 'var(--dark-color)', fontWeight: 500}}>Colleges</Link>
             {isAuthenticated ? (
@@ -59,15 +60,15 @@ const Header = () => {
                   aria-label="Profile menu"
                 >
                   <FaUserCircle className="profile-avatar-icon" />
-                  <span className="profile-name">{user?.name || user?.email || 'User'}</span>
+                  <span className="profile-name">User</span>
                 </button></Link>
                 {showProfileMenu && (
                   <div className="profile-menu">
                     <div className="profile-menu-header">
                       <FaUserCircle className="profile-menu-avatar" />
                       <div>
-                        <p className="profile-menu-name">{user?.name || 'User'}</p>
-                        <p className="profile-menu-email">{user?.email || ''}</p>
+                        <p className="profile-menu-name">User</p>
+                        <p className="profile-menu-email"></p>
                       </div>
                     </div>
                     <div className="profile-menu-divider"></div>

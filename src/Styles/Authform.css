@@ -9,7 +9,11 @@
 body {
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
-  background:linear-gradient(135deg, #f5f7ff 0%, #e3e9ff 100%); /* Black background */
+  background: linear-gradient(
+    135deg,
+    #f5f7ff 0%,
+    #e3e9ff 100%
+  ); /* Black background */
 }
 
 .login-page-container {
@@ -597,12 +601,12 @@ body {
   .redirect-options {
     padding: 12px;
   }
-  
+
   .redirect-buttons {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .redirect-btn {
     width: 100%;
   }

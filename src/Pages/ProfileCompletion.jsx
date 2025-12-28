@@ -4,6 +4,7 @@ import { useToast } from "../hooks/useToast";
 import ToastContainer from "../components/ToastContainer";
 import { submitBasicProfile } from "../utils/api";
 import { auth } from "../firebaseConfig";
+import { useAuth } from "../context/AuthContext";
 import "../Styles/ProfileCompletion.css";
 
 const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
@@ -12,6 +13,7 @@ const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 const ProfileCompletion = () => {
   const navigate = useNavigate();
   const { toasts, toast, removeToast } = useToast();
+  const { authState, markProfileCompleted } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -98,18 +100,18 @@ const ProfileCompletion = () => {
       return;
     }
 
+    if (!authState?.uid) {
+      toast.error("Session expired. Please log in again.");
+      navigate("/login");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        toast.error("Session expired. Please log in again.");
-        navigate("/login");
-        return;
-      }
-
       await submitBasicProfile({
-        profilePhoto: profilePhoto || user.photoURL || "",
+        uid: authState.uid, // ✅ REQUIRED by backend
+        profilePhoto: profilePhoto || "",
         phone,
         address,
         dob,
@@ -120,8 +122,8 @@ const ProfileCompletion = () => {
       toast.success("Profile completed successfully!");
 
       setTimeout(() => {
-        navigate("/home");
-      }, 1000);
+        navigate("/profile");
+      }, 800);
     } catch (error) {
       console.error("Profile completion error:", error);
       toast.error(error.message || "Failed to complete profile");

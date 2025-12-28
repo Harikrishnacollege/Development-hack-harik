@@ -5,6 +5,8 @@ import Home from "./Pages/Home"
 import Login from "./Pages/Login"
 import AIGenerator from './components/AIGenerator';
 import Profile from './components/Profile';
+import ProfileCompletion from './Pages/ProfileCompletion';
+import EditBio from './Pages/EditBio';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/AiGenerator" element={<AIGenerator/>}/>
         <Route path="/colleges" element={<CollegeList />} />
         <Route path="/Profile" element={<Profile/>}/>
+        <Route path="/profile-completion" element={<ProfileCompletion/>}/>
+        <Route path="/edit-bio" element={<EditBio/>}/>
         <Route path="/college/:id" element={<CollegeDetails />} />
       </Routes>
     </Router>
