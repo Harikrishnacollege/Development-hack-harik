@@ -1,20 +1,17 @@
 /* Authform.css - Updated for React */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   min-height: 100vh;
   background: #32aeb7; /* Black background */
 }
 
-.login-page-container {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  justify-content: center;
-  align-items: center;
-}
 .login-page-container {
   display: flex;
   width: 100vw;
@@ -32,7 +29,11 @@ body {
   border-radius: 12px;
   border: 2px solid rgba(99, 232, 229, 0.12);
   box-shadow: 0 10px 40px rgba(20, 132, 172, 0.6);
-  background: linear-gradient(180deg, rgba(16, 125, 139, 0), rgba(35, 212, 209, 0.01));
+  background: linear-gradient(
+    180deg,
+    rgba(16, 125, 139, 0),
+    rgba(35, 212, 209, 0.01)
+  );
   transition: all 0.5s ease;
 }
 
@@ -52,29 +53,29 @@ body {
 }
 
 /* login on left, register on right */
-.form-box.login { 
-  left: 0; 
+.form-box.login {
+  left: 0;
   opacity: 1;
   transform: translateX(0);
 }
 
-.form-box.register { 
-  right: 0; 
-  pointer-events: none; 
-  opacity: 0; 
+.form-box.register {
+  right: 0;
+  pointer-events: none;
+  opacity: 0;
   transform: translateX(30px);
 }
 
 /* when active: show register and hide login */
-.wrapper.active .form-box.login { 
-  pointer-events: none; 
-  opacity: 0; 
+.wrapper.active .form-box.login {
+  pointer-events: none;
+  opacity: 0;
   transform: translateX(-30px);
 }
 
-.wrapper.active .form-box.register { 
-  pointer-events: auto; 
-  opacity: 1; 
+.wrapper.active .form-box.register {
+  pointer-events: auto;
+  opacity: 1;
   transform: translateX(0);
 }
 
@@ -100,7 +101,7 @@ body {
   padding: 10px 36px 10px 6px;
   background: transparent;
   border: none;
-  border-bottom: 2px solid rgba(255,255,255,0.18);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.18);
   outline: none;
   color: #fff;
   font-size: 15px;
@@ -109,14 +110,14 @@ body {
 
 .input-box input:focus {
   border-bottom-color: #fff;
-  box-shadow: 0 2px 8px rgba(255,255,255,0.1);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
 .input-box label {
   position: absolute;
   left: 6px;
   top: 50%;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   pointer-events: none;
   transition: all 0.3s ease;
 }
@@ -127,7 +128,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   transition: color 0.3s ease;
 }
 
@@ -138,7 +139,7 @@ body {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
   font-size: 20px;
   cursor: pointer;
   padding: 0 4px;
@@ -170,14 +171,14 @@ body {
   background: transparent;
   color: #fff;
   border-radius: 40px;
-  border: 2px solid rgba(255,255,255,0.85);
+  border: 2px solid rgba(255, 255, 255, 0.85);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .btn:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
 
@@ -190,7 +191,7 @@ body {
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top: 2px solid #fff;
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -198,26 +199,30 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* links */
-.logreg-link { 
-  margin-top: 16px; 
-  text-align: center; 
-  color: rgba(255,255,255,0.85); 
-  font-size: 14px; 
+.logreg-link {
+  margin-top: 16px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
 }
 
-.logreg-link a { 
-  color: #fff; 
-  text-decoration: none; 
-  font-weight: 600; 
+.logreg-link a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.logreg-link a:hover { 
+.logreg-link a:hover {
   text-decoration: underline;
 }
 
@@ -237,45 +242,46 @@ body {
   z-index: 2;
 }
 
-.info-text.login { 
-  right: 0; 
-  text-align: right; 
-  padding-right: 72px; 
+.info-text.login {
+  right: 0;
+  text-align: right;
+  padding-right: 72px;
   transform: translateX(0);
   opacity: 1;
 }
 
-.info-text.register { 
-  left: 0; 
-  text-align: left; 
-  padding-left: 72px; 
+.info-text.register {
+  left: 0;
+  text-align: left;
+  padding-left: 72px;
   transform: translateX(-20px);
   opacity: 0;
 }
 
-.wrapper.active .info-text.login { 
+.wrapper.active .info-text.login {
   transform: translateX(20px);
   opacity: 0;
 }
 
-.wrapper.active .info-text.register { 
+.wrapper.active .info-text.register {
   transform: translateX(0);
   opacity: 1;
 }
 
-.info-text h2 { 
-  font-size: 34px; 
-  margin-bottom: 8px; 
+.info-text h2 {
+  font-size: 34px;
+  margin-bottom: 8px;
 }
 
-.info-text p { 
-  font-size: 15px; 
-  color: rgba(255,255,255,0.9); 
-  line-height: 1.4; 
+.info-text p {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
 }
 
 /* decorative background shapes */
-.bg-animate, .bg-animate2 {
+.bg-animate,
+.bg-animate2 {
   position: absolute;
   width: 900px;
   height: 700px;
@@ -293,38 +299,48 @@ body {
 .bg-animate2 {
   bottom: -200px;
   left: -200px;
-  background: linear-gradient(180deg, rgb(76, 195, 201), rgba(16, 148, 158, 0.6));
+  background: linear-gradient(
+    180deg,
+    rgb(76, 195, 201),
+    rgba(16, 148, 158, 0.6)
+  );
   transform: rotate(-6deg);
 }
 
-.wrapper.active .bg-animate { 
-  transform: rotate(0deg); 
-  right: -40px; 
-  top: -40px; 
+.wrapper.active .bg-animate {
+  transform: rotate(0deg);
+  right: -40px;
+  top: -40px;
 }
 
-.wrapper.active .bg-animate2 { 
-  transform: rotate(-12deg); 
-  left: -340px; 
-  bottom: -100px; 
+.wrapper.active .bg-animate2 {
+  transform: rotate(-12deg);
+  left: -340px;
+  bottom: -100px;
 }
 
 /* responsive */
 @media (max-width: 720px) {
-  .wrapper { 
-    height: auto; 
-    padding: 48px 20px; 
+  .wrapper {
+    height: auto;
+    padding: 48px 20px;
     margin: 20px auto;
   }
-  .form-box, .info-text { 
-    position: static; 
-    width: 100%; 
-    padding: 18px 12px; 
-    opacity: 1; 
-    transform: none !important; 
+  .form-box,
+  .info-text {
+    position: static;
+    width: 100%;
+    padding: 18px 12px;
+    opacity: 1;
+    transform: none !important;
   }
-  .info-text { display: none; }
-  .bg-animate, .bg-animate2 { display: none; }
+  .info-text {
+    display: none;
+  }
+  .bg-animate,
+  .bg-animate2 {
+    display: none;
+  }
 }
 /* Google Authentication Styles */
 .google-auth {
@@ -340,7 +356,7 @@ body {
 
 .divider::before,
 .divider::after {
-  content: '';
+  content: "";
   flex: 1;
   height: 1px;
   background: rgba(255, 255, 255, 0.3);
@@ -425,7 +441,7 @@ body {
     height: 42px;
     font-size: 14px;
   }
-  
+
   .divider span {
     font-size: 12px;
   }
@@ -466,7 +482,7 @@ body {
   padding: 10px 40px 10px 10px; /* Right padding for icon */
   background: transparent;
   border: none;
-  border-bottom: 2px solid rgba(255,255,255,0.18);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.18);
   outline: none;
   color: #fff;
   font-size: 15px;
@@ -480,7 +496,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   pointer-events: none;
 }
 
@@ -491,7 +507,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 18px;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255, 255, 255, 0.75);
   pointer-events: none;
 }
 
@@ -503,7 +519,7 @@ body {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
   font-size: 20px;
   cursor: pointer;
   padding: 5px;
