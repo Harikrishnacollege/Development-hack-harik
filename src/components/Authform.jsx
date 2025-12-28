@@ -1,17 +1,12 @@
 import "../Styles/Authform.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
-
-import { auth, googleProvider } from "../firebaseConfig";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
 
 function Authform() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [isRegister, setIsRegister] = useState(false);
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [showLoginEmail, setShowLoginEmail] = useState(false);
@@ -19,125 +14,52 @@ function Authform() {
   const [isLoading, setIsLoading] = useState(false);
   const [redirectTo, setRedirectTo] = useState('/AiGenerator'); // Default redirect
 
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-
-  const [regEmail, setRegEmail] = useState("");
-  const [regPassword, setRegPassword] = useState("");
-
-  const toggleForm = () => setIsRegister((prev) => !prev);
-
-  // ---------------- EMAIL / PASSWORD AUTH ----------------
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isLoading) return;
-
-    setIsLoading(true);
-
-    try {
-      if (isRegister) {
-        if (!regEmail || !regPassword) {
-          alert("Please enter email and password");
-          return;
-        }
-
-        const res = await createUserWithEmailAndPassword(
-          auth,
-          regEmail,
-          regPassword
-        );
-        console.log("Registered:", res.user);
-        alert("Registration successful");
-      } else {
-        if (!loginEmail || !loginPassword) {
-          alert("Please enter email and password");
-          return;
-        }
-
-        const res = await signInWithEmailAndPassword(
-          auth,
-          loginEmail,
-          loginPassword
-        );
-        console.log("Logged in:", res.user);
-        alert("Login successful");
-      }
-    } catch (error) {
-      console.error(error.code, error.message);
-
-      switch (error.code) {
-        case "auth/invalid-email":
-          alert("Invalid email address");
-          break;
-        case "auth/user-not-found":
-          alert("User not found");
-          break;
-        case "auth/wrong-password":
-          alert("Incorrect password");
-          break;
-        case "auth/email-already-in-use":
-          alert("Email already registered");
-          break;
-        case "auth/weak-password":
-          alert("Password should be at least 6 characters");
-          break;
-        default:
-          alert(error.message);
-      }
-    } finally {
-      setIsLoading(false);
-      // Reset form or show success message
-    }, 2000);
+  // Toggle between login and register forms
+  const toggleForm = () => {
+    setIsRegister(!isRegister);
   };
 
-  // ---------------- GOOGLE AUTH ---------------
-  const handleGoogleAuth = async () => {
-    if (isLoading) return;
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setIsLoading(true);
-
-    try {
-      // 1️⃣ Google sign-in
-      const result = await signInWithPopup(auth, googleProvider);
-
-      const user = result.user;
-      if (!user) {
-        throw new Error("No user returned from Google sign-in");
-      }
-
-      // 2️⃣ Get Firebase ID token
-      const idToken = await user.getIdToken();
-
-      console.log("Firebase ID Token:", idToken);
-
-      // 3️⃣ Send token to backend
-      const response = await fetch(
-        "https://iit-jhack-backend.onrender.com/auth/google",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ idToken }),
-        }
-      );
-
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(`Backend error: ${text}`);
-      }
-
-      const data = await response.json();
-      console.log("Backend response:", data);
-
-      alert("Google login successful");
-    } catch (error) {
-      console.error("Google auth flow failed:", error);
-      alert(error.message);
-    } finally {
+    
+    // Get form data
+    const formData = new FormData(e.target);
+    const email = formData.get('email') || document.getElementById(isRegister ? 'regEmail' : 'loginEmail')?.value;
+    const name = isRegister ? (formData.get('username') || document.getElementById('regUsername')?.value) : null;
+    
+    // Simulate API call
+    setTimeout(() => {
       setIsLoading(false);
-      alert("Google authentication successful!");
-      // In real app, you would redirect to Google OAuth
-      // window.location.href = "YOUR_GOOGLE_OAUTH_URL";
+      // Create user object and login
+      const userData = {
+        email: email,
+        name: name || email?.split('@')[0] || 'User',
+        loginMethod: 'email'
+      };
+      login(userData);
+      // Navigate to selected page after successful login
+      navigate(redirectTo);
+    }, 1500);
+  };
+
+  // Handle Google authentication
+  const handleGoogleAuth = () => {
+    setIsLoading(true);
+    
+    // Simulate Google OAuth flow
+    setTimeout(() => {
+      setIsLoading(false);
+      // Create user object and login
+      const userData = {
+        email: 'user@gmail.com',
+        name: 'Google User',
+        loginMethod: 'google'
+      };
+      login(userData);
+      // Navigate to selected page after successful Google auth
+      navigate(redirectTo);
     }, 1500);
   };
 
@@ -188,15 +110,15 @@ function Authform() {
               <div className="redirect-buttons">
                 <button 
                   type="button"
-                  className={`redirect-btn ${redirectTo === '/AiGenerator' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/AiGenerator')}
+                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
+                  onClick={() => setRedirectTo('/')}
                 >
                   AI Generator
                 </button>
                 <button 
                   type="button"
-                  className={`redirect-btn ${redirectTo === '/colleges' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/colleges')}
+                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
+                  onClick={() => setRedirectTo('/')}
                 >
                   Colleges
                 </button>
@@ -248,6 +170,7 @@ function Authform() {
             <div className="input-box">
               <input
                 id="regUsername"
+                name="username"
                 type="text"
                 placeholder=" "
                 required
@@ -259,12 +182,13 @@ function Authform() {
 
             <div className="input-box">
               <input
-                id="loginEmail"
-                type="text"
+                id="regEmail"
+                name="email"
+                type="email"
                 placeholder=" "
                 required
               />
-              <label htmlFor="loginEmail">Email</label>
+              <label htmlFor="regEmail">Email</label>
               <i className="bx bxs-user"></i>
               <span className="error-message"></span>
             </div>
@@ -292,15 +216,15 @@ function Authform() {
               <div className="redirect-buttons">
                 <button 
                   type="button"
-                  className={`redirect-btn ${redirectTo === '/AiGenerator' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/AiGenerator')}
+                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
+                  onClick={() => setRedirectTo('/')}
                 >
                   AI Generator
                 </button>
                 <button 
                   type="button"
-                  className={`redirect-btn ${redirectTo === '/colleges' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/colleges')}
+                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
+                  onClick={() => setRedirectTo('/')}
                 >
                   Colleges
                 </button>

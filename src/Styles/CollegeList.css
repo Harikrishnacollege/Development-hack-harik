@@ -22,6 +22,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin-top: 10px;
 }
 
 .subtitle {
@@ -454,4 +455,20 @@
     background: rgba(0, 0, 0, 0.5);
     z-index: -1;
   }
+}
+/* Add this to your Header.css or Header component styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add padding-top to the main content to prevent hiding under navbar */
+.college-list-page {
+  padding-top: 80px; /* Adjust based on your navbar height */
+  min-height: 100vh;
 }

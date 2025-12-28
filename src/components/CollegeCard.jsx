@@ -81,7 +81,7 @@ const CollegeCard = ({ college }) => {
         >
           Visit Website
         </a>
-        <Link to={`/college/${college.id}`} className="apply-btn-card">
+        <Link to={`/college/${college.id}`} className="apply-btn-card" style={{height:'8vh'}} >
           Apply Now
         </Link>
       </div>

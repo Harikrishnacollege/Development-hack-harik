@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaRobot, FaFilePdf, FaDownload, FaSync } from 'react-icons/fa';
 import '../Styles/AIGenerator.css';
+import Header from './Header';
 
 const AIGenerator = () => {
   const [subject, setSubject] = useState('Computer Science');
@@ -34,10 +35,20 @@ const AIGenerator = () => {
 
       const data = await response.json();
       
-      // Extract and parse the response
-      const generatedText = data.candidates[0].content.parts[0].text;
+      // Extract and parse the response from Gemini Flash
+      let generatedText = '';
+      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+        if (data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+          generatedText = data.candidates[0].content.parts[0].text || '';
+        }
+      }
+      
+      if (!generatedText) {
+        throw new Error('No response text from API');
+      }
       
       try {
+        // Try to extract JSON from the response
         const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
         const jsonString = jsonMatch ? jsonMatch[0] : generatedText;
         const parsedData = JSON.parse(jsonString);
@@ -47,16 +58,39 @@ const AIGenerator = () => {
           title: parsedData.title || `${subject} ${examType} Paper`,
           subject: parsedData.subject || subject,
           difficulty: parsedData.difficulty || difficulty,
-          questions: parsedData.questions || generateFallbackQuestions(),
+          questions: Array.isArray(parsedData.questions) ? parsedData.questions : generateFallbackQuestions(),
           instructions: parsedData.instructions || 'Answer all questions. Show your work where necessary.',
-          generatedAt: new Date().toLocaleString()
+          generatedAt: new Date().toLocaleString(),
+          isFallback: false
         };
         
         setGeneratedPaper(paper);
+        setError(null);
         
       } catch (parseError) {
         console.error('Error parsing response:', parseError);
-        generateFallbackPaper();
+        console.log('Raw response:', generatedText);
+        // Try to extract questions from text if JSON parsing fails
+        const questionLines = generatedText.split('\n').filter(line => 
+          line.trim().match(/^\d+[\.\)]/) || line.trim().startsWith('-')
+        );
+        if (questionLines.length > 0) {
+          const questions = questionLines.slice(0, 5).map(q => q.replace(/^\d+[\.\)]\s*/, '').replace(/^-\s*/, '').trim());
+          const paper = {
+            id: Date.now(),
+            title: `${subject} ${examType} Paper`,
+            subject: subject,
+            difficulty: difficulty,
+            questions: questions,
+            instructions: 'Answer all questions. Show your work where necessary.',
+            generatedAt: new Date().toLocaleString(),
+            isFallback: false
+          };
+          setGeneratedPaper(paper);
+          setError(null);
+        } else {
+          throw parseError;
+        }
       }
       
     } catch (err) {
@@ -175,6 +209,7 @@ const AIGenerator = () => {
 
   return (
     <section id="ai-generator" className="ai-generator">
+      <Header />
       <div className="container">
         <h2 className="section-title">AI-Powered Question Paper Generator</h2>
         <p className="section-subtitle">
@@ -182,11 +217,9 @@ const AIGenerator = () => {
         </p>
         
         <div className="api-notice">
-          <p>🔧 <strong>Note:</strong> For full AI capabilities, run the backend server.</p>
+          <p>🤖 <strong>Powered by Gemini Flash:</strong> Advanced AI question generation</p>
           <p className="api-instructions">
-            1. Create a backend server (see instructions in code)<br/>
-            2. Add your Gemini API key to the backend<br/>
-            3. Start both frontend and backend servers
+            Make sure the backend server is running on port 3001 with Gemini Flash API configured.
           </p>
         </div>
         

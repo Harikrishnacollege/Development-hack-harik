@@ -378,6 +378,7 @@ const CollegeDetails = () => {
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="website-btn"
+                    style={{width:'23vw'}}
                   >
                     <FaGlobe /> VisitWebsite
                   </a>

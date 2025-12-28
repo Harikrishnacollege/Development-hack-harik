@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CollegeCard from './CollegeCard';
 import '../Styles/CollegeList.css';
-
+import Header from './Header';
 import { 
   FaSearch, 
   FaFilter, 
@@ -117,6 +117,7 @@ const CollegeList = () => {
 
   return (
     <div className="college-list-page">
+      <Header/>
       <div className="container">
         <header className="page-header">
           <h1>Find Your Dream College</h1>
