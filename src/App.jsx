@@ -1,25 +1,29 @@
-import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Features from './components/Features';
-import AIGenerator from './components/AIGenerator';
-import HowItWorks from './components/HowItWorks';
-import Testimonials from './components/Testimonials';
-import CTASection from './components/CTASection';
-import Footer from './components/Footer';
-import './App.css';
+import React from "react";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Features from "./components/Features";
+import AIGenerator from "./components/AIGenerator";
+import HowItWorks from "./components/HowItWorks";
+import Testimonials from "./components/Testimonials";
+import CTASection from "./components/CTASection";
+import Footer from "./components/Footer";
+import "./App.css";
+import Authform from "./components/Authform";
+import Profile from "./components/Profile";
 
 function App() {
   return (
     <div className="App">
-      <Header />
+      {/* <Profile/> */}
+      {/* <Header />
       <Hero />
       <Features />
       <AIGenerator />
       <HowItWorks />
       <Testimonials />
       <CTASection />
-      <Footer />
+      <Footer /> */}
+      <Authform/>
     </div>
   );
 }
