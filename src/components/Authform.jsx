@@ -79,7 +79,6 @@ function Authform() {
               />
               <label htmlFor="loginEmail">Email</label>
               <i className="bx bxs-user"></i>
-              <span className="error-message"></span>
             </div>
             <div className="input-box">
               <input
@@ -105,25 +104,7 @@ function Authform() {
               </a>
             </div>
 
-            <div className="redirect-options">
-              <p>After login, go to:</p>
-              <div className="redirect-buttons">
-                <button 
-                  type="button"
-                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/')}
-                >
-                  AI Generator
-                </button>
-                <button 
-                  type="button"
-                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/')}
-                >
-                  Colleges
-                </button>
-              </div>
-            </div>
+           
 
             <button type="submit" className="btn" disabled={isLoading}>
               {isLoading ? (
@@ -177,7 +158,6 @@ function Authform() {
               />
               <label htmlFor="regUsername">Username</label>
               <i className="bx bxs-user"></i>
-              <span className="error-message"></span>
             </div>
 
             <div className="input-box">
@@ -190,7 +170,6 @@ function Authform() {
               />
               <label htmlFor="regEmail">Email</label>
               <i className="bx bxs-user"></i>
-              <span className="error-message"></span>
             </div>
             <div className="input-box">
               <input
@@ -208,28 +187,8 @@ function Authform() {
               >
                 <i className={`bx ${showRegisterPassword ? "bx-hide" : "bx-show"}`}></i>
               </button>
-              <span className="error-message"></span>
             </div>
 
-            <div className="redirect-options">
-              <p>After registration, go to:</p>
-              <div className="redirect-buttons">
-                <button 
-                  type="button"
-                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/')}
-                >
-                  AI Generator
-                </button>
-                <button 
-                  type="button"
-                  className={`redirect-btn ${redirectTo === '/' ? 'active' : ''}`}
-                  onClick={() => setRedirectTo('/')}
-                >
-                  Colleges
-                </button>
-              </div>
-            </div>
 
             <button type="submit" className="btn" disabled={isLoading}>
               {isLoading ? (

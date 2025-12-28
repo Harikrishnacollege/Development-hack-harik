@@ -28,70 +28,70 @@ const AIGenerator = () => {
           difficulty
         })
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const data = await response.json();
       
-      // Extract and parse the response from Gemini Flash
-      let generatedText = '';
-      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-        if (data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-          generatedText = data.candidates[0].content.parts[0].text || '';
-        }
-      }
+      // NEW LOGIC: Check for the current backend response structure
+      console.log('Backend response structure:', Object.keys(data));
       
-      if (!generatedText) {
-        throw new Error('No response text from API');
-      }
-      
-      try {
-        // Try to extract JSON from the response
-        const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
-        const jsonString = jsonMatch ? jsonMatch[0] : generatedText;
-        const parsedData = JSON.parse(jsonString);
-        
+      if (data.success) {
+        // Backend returns: {success: true, title: "...", subject: "...", questions: [...]}
         const paper = {
           id: Date.now(),
-          title: parsedData.title || `${subject} ${examType} Paper`,
-          subject: parsedData.subject || subject,
-          difficulty: parsedData.difficulty || difficulty,
-          questions: Array.isArray(parsedData.questions) ? parsedData.questions : generateFallbackQuestions(),
-          instructions: parsedData.instructions || 'Answer all questions. Show your work where necessary.',
+          title: data.title || `${subject} ${examType} Paper`,
+          subject: data.subject || subject,
+          difficulty: data.difficulty || difficulty,
+          questions: Array.isArray(data.questions) ? data.questions : generateFallbackQuestions(),
+          instructions: data.instructions || 'Answer all questions. Show your work where necessary.',
           generatedAt: new Date().toLocaleString(),
-          isFallback: false
+          isFallback: false,
+          source: data.source || 'backend'
         };
         
         setGeneratedPaper(paper);
         setError(null);
+        return;
+      }
+      
+      // OLD STRUCTURE (for backward compatibility)
+      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+        let generatedText = '';
+        if (data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+          generatedText = data.candidates[0].content.parts[0].text || '';
+        }
         
-      } catch (parseError) {
-        console.error('Error parsing response:', parseError);
-        console.log('Raw response:', generatedText);
-        // Try to extract questions from text if JSON parsing fails
-        const questionLines = generatedText.split('\n').filter(line => 
-          line.trim().match(/^\d+[\.\)]/) || line.trim().startsWith('-')
-        );
-        if (questionLines.length > 0) {
-          const questions = questionLines.slice(0, 5).map(q => q.replace(/^\d+[\.\)]\s*/, '').replace(/^-\s*/, '').trim());
-          const paper = {
-            id: Date.now(),
-            title: `${subject} ${examType} Paper`,
-            subject: subject,
-            difficulty: difficulty,
-            questions: questions,
-            instructions: 'Answer all questions. Show your work where necessary.',
-            generatedAt: new Date().toLocaleString(),
-            isFallback: false
-          };
-          setGeneratedPaper(paper);
-          setError(null);
-        } else {
-          throw parseError;
+        if (generatedText) {
+          try {
+            const jsonMatch = generatedText.match(/\{[\s\S]*\}/);
+            const jsonString = jsonMatch ? jsonMatch[0] : generatedText;
+            const parsedData = JSON.parse(jsonString);
+            
+            const paper = {
+              id: Date.now(),
+              title: parsedData.title || `${subject} ${examType} Paper`,
+              subject: parsedData.subject || subject,
+              difficulty: parsedData.difficulty || difficulty,
+              questions: Array.isArray(parsedData.questions) ? parsedData.questions : generateFallbackQuestions(),
+              instructions: parsedData.instructions || 'Answer all questions. Show your work where necessary.',
+              generatedAt: new Date().toLocaleString(),
+              isFallback: false
+            };
+            
+            setGeneratedPaper(paper);
+            setError(null);
+            return;
+          } catch (parseError) {
+            console.error('Parse error:', parseError);
+          }
         }
       }
+      
+      // If we get here, no valid structure found
+      throw new Error('No valid response from API');
       
     } catch (err) {
       console.error('Error calling backend:', err);
@@ -167,12 +167,10 @@ const AIGenerator = () => {
     setIsGenerating(true);
     setError(null);
     
-    // Try backend first, then fallback
     try {
       await generateWithBackend();
     } catch (err) {
-      console.error('Backend failed, using fallback:', err);
-      generateFallbackPaper();
+      console.error('Generation failed:', err);
     } finally {
       setIsGenerating(false);
     }
@@ -216,12 +214,6 @@ const AIGenerator = () => {
           Create custom practice papers for any subject and exam type in seconds using our advanced AI.
         </p>
         
-        <div className="api-notice">
-          <p>🤖 <strong>Powered by Gemini Flash:</strong> Advanced AI question generation</p>
-          <p className="api-instructions">
-            Make sure the backend server is running on port 3001 with Gemini Flash API configured.
-          </p>
-        </div>
         
         <div className="generator-container">
           <div className="generator-controls card">

@@ -9,7 +9,7 @@
 body {
   font-family: "Poppins", sans-serif;
   min-height: 100vh;
-  background: #32aeb7; /* Black background */
+  background:linear-gradient(135deg, #f5f7ff 0%, #e3e9ff 100%); /* Black background */
 }
 
 .login-page-container {
