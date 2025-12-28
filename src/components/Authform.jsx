@@ -49,20 +49,14 @@ function Authform() {
             <div className="input-box">
               <input
                 id="loginEmail"
-                type={showLoginEmail ? "text" : "Email"}
+                type="text"
                 placeholder=" "
                 required
               />
               <label htmlFor="loginEmail">Email</label>
-              <i className="bx bxs-lock-alt"></i>
-              <button
-                type="button"
-                className="toggle"
-                onClick={() => setShowLoginEmail(!showLoginEmail)}
-              ></button>
-                <i className={`bx ${showLoginEmail ? "bx-hide" : "bx-show"}`}></i>
+              <i className="bx bxs-user"></i>
+              <span className="error-message"></span>
             </div>
-
             <div className="input-box">
               <input
                 id="loginPassword"
@@ -143,16 +137,15 @@ function Authform() {
 
             <div className="input-box">
               <input
-                id="regEmail"
-                type="email"
+                id="loginEmail"
+                type="text"
                 placeholder=" "
                 required
               />
-              <label htmlFor="regEmail">Email</label>
-              <i className="bx bxs-envelope"></i>
+              <label htmlFor="loginEmail">Email</label>
+              <i className="bx bxs-user"></i>
               <span className="error-message"></span>
             </div>
-
             <div className="input-box">
               <input
                 id="regPassword"
