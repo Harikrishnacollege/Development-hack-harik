@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaLinkedin, FaGraduationCap, FaBars, FaTimes } from 'react-icons/fa';
-
+import {Link} from "react-router-dom";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -21,7 +21,9 @@ const Header = () => {
             <a href="#features">Features</a>
             <a href="#ai-generator">AI Generator</a>
             <a href="#how-it-works">How It Works</a>
-            <a href="#testimonials">Testimonials</a>
+            <Link to={`/colleges`} className="apply-btn-card">
+            <a href="#testimonials"></a>
+            </Link>
             <a href="#contact" className="btn btn-secondary">Get Early Access</a>
           </div>
           
